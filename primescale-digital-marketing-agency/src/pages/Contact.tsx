@@ -1,96 +1,144 @@
-import { ArrowRight, Mail, Phone, MapPin, Clock, MessageSquare } from 'lucide-react';
+import { ArrowRight, Mail, Phone, MessageSquare } from 'lucide-react';
+import { motion, useReducedMotion } from 'motion/react';
 
 export default function Contact() {
+  const reduce = useReducedMotion();
+
+  const inView = (delay = 0) => ({
+    initial: reduce ? false : { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.15 },
+    transition: { duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] as const },
+  });
+
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50">
-      {/* Header */}
-      <section className="pt-32 pb-16 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Contactos</h1>
-          <p className="text-xl text-slate-300 max-w-2xl mx-auto">
-            Estamos prontos para ajudar o seu negócio a crescer. Entre em contacto connosco ou marque diretamente uma chamada estratégica.
-          </p>
+    <div className="flex flex-col bg-slate-950 text-white">
+
+      {/* ── PAGE HERO ───────────────────────────────────── */}
+      <section className="pt-32 pb-16 lg:pt-40 lg:pb-20 bg-slate-900/40 border-b border-slate-800/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div {...inView()} className="max-w-xl">
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+              Vamos conversar.
+            </h1>
+            <p className="text-lg text-slate-400">
+              Fale connosco por email, telefone ou marque uma chamada estrategica gratuita de 30 minutos.
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-24">
+      {/* ── MAIN CONTENT ────────────────────────────────── */}
+      <section className="py-20 lg:py-28">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            
-            {/* Contact Info */}
-            <div className="space-y-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+
+            {/* Left: contact details */}
+            <motion.div {...inView()} className="space-y-10">
               <div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-6">Fale Connosco</h2>
-                <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                  Tem dúvidas sobre os nossos serviços ou quer saber como podemos ajudar o seu negócio específico? A nossa equipa está disponível para responder a todas as suas questões.
+                <h2 className="text-2xl font-bold text-white mb-6">Formas de contacto</h2>
+                <div className="space-y-5">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-blue-600/15 border border-blue-500/20 flex items-center justify-center shrink-0">
+                      <Mail className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-slate-400 mb-0.5">Email</p>
+                      <a
+                        href="mailto:info@primescale.pt"
+                        className="text-white font-medium hover:text-blue-400 transition-colors"
+                      >
+                        info@primescale.pt
+                      </a>
+                      <p className="text-xs text-slate-500 mt-1">Respondemos em menos de 24 horas.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-blue-600/15 border border-blue-500/20 flex items-center justify-center shrink-0">
+                      <Phone className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-slate-400 mb-0.5">Telefone</p>
+                      <a
+                        href="tel:+351919839748"
+                        className="text-white font-medium hover:text-blue-400 transition-colors"
+                      >
+                        +351 919 839 748
+                      </a>
+                      <p className="text-xs text-slate-500 mt-1">Horario de atendimento: seg-sex, 09h-18h.</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-blue-600/15 border border-blue-500/20 flex items-center justify-center shrink-0">
+                      <MessageSquare className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm text-slate-400 mb-0.5">WhatsApp</p>
+                      <a
+                        href="https://wa.me/351919839748"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-white font-medium hover:text-blue-400 transition-colors"
+                      >
+                        +351 919 839 748
+                      </a>
+                      <p className="text-xs text-slate-500 mt-1">Para questoes rapidas.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-slate-800/60 pt-8">
+                <h3 className="text-sm font-semibold text-white mb-3">Onde estamos</h3>
+                <p className="text-sm text-slate-400">
+                  Operamos remotamente com clientes em todo o territorio nacional. Reunioes presenciais mediante agendamento previo.
                 </p>
               </div>
+            </motion.div>
 
-              <div className="space-y-8">
-                <div className="flex items-start">
-                  <div className="flex-shrink-0 mt-1">
-                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
-                      <Mail className="h-6 w-6" />
-                    </div>
-                  </div>
-                  <div className="ml-6">
-                    <h3 className="text-lg font-bold text-slate-900">Email</h3>
-                    <p className="text-slate-600 mt-1">Envie-nos um email e responderemos em 24h.</p>
-                    <a href="mailto:info@primescale.pt" className="text-blue-600 font-medium hover:text-blue-700 mt-2 inline-block">
-                      info@primescale.pt
-                    </a>
-                  </div>
+            {/* Right: booking card */}
+            <motion.div {...inView(0.1)}>
+              <div className="rounded-2xl bg-slate-900 border border-slate-800 p-8 md:p-10">
+                <div className="w-12 h-12 rounded-xl bg-blue-600/15 border border-blue-500/20 flex items-center justify-center mb-6">
+                  <MessageSquare className="w-6 h-6 text-blue-400" />
                 </div>
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  A forma mais rapida de comecar.
+                </h2>
+                <p className="text-slate-400 leading-relaxed mb-8 text-sm">
+                  Marque diretamente uma chamada estrategica gratuita de 30 minutos. Analisamos o seu negocio e mostramos exatamente como o bot pode ajudar, sem compromisso.
+                </p>
 
-                <div className="flex items-start">
-                  <div className="flex-shrink-0 mt-1">
-                    <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center">
-                      <Phone className="h-6 w-6" />
+                <a
+                  href="https://calendly.com/primescale-info/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-full transition-all active:scale-[0.98]"
+                >
+                  Marcar Chamada Gratuita
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+
+                <p className="text-center text-xs text-slate-500 mt-4">
+                  Gratuito. Sem compromisso. Cancelamento simples.
+                </p>
+
+                <div className="mt-8 pt-8 border-t border-slate-800 grid grid-cols-3 gap-4 text-center">
+                  {[
+                    { val: '30 min', label: 'Duracao' },
+                    { val: '0€', label: 'Custo' },
+                    { val: '48h', label: 'Para comecar' },
+                  ].map((s) => (
+                    <div key={s.val}>
+                      <p className="text-lg font-bold text-white">{s.val}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">{s.label}</p>
                     </div>
-                  </div>
-                  <div className="ml-6">
-                    <h3 className="text-lg font-bold text-slate-900">Telefone</h3>
-                    <a href="tel:+351919839748" className="text-blue-600 font-medium hover:text-blue-700 mt-2 inline-block">
-                      +351 919839748
-                    </a>
-                  </div>
+                  ))}
                 </div>
               </div>
-            </div>
-
-            {/* Booking CTA Card */}
-            <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl border border-slate-100 flex flex-col justify-center text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-full -z-10"></div>
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-slate-50 rounded-tr-full -z-10"></div>
-              
-              <div className="w-20 h-20 bg-blue-600 text-white rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-lg shadow-blue-200 rotate-3">
-                <MessageSquare className="h-10 w-10" />
-              </div>
-              
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">
-                A forma mais rápida de começar
-              </h2>
-              
-              <p className="text-slate-600 mb-10 leading-relaxed">
-                Não perca tempo com emails de ida e volta. Marque diretamente uma chamada estratégica gratuita de 30 minutos com um dos nossos especialistas. Vamos analisar o seu negócio e mostrar-lhe o caminho para o crescimento.
-              </p>
-              
-              <a
-                href="https://calendly.com/primescale-info/30min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 w-full"
-              >
-                Marcar Chamada Agora
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
-              
-              <p className="mt-6 text-sm text-slate-500">
-                100% Gratuito. Sem compromisso.
-              </p>
-            </div>
-
+            </motion.div>
           </div>
         </div>
       </section>

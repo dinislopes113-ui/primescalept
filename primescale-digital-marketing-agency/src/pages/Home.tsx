@@ -1,284 +1,437 @@
-import { ArrowRight, CheckCircle2, TrendingUp, Users, Target, BarChart3, MessageSquare } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ArrowRight, Zap, MessageSquare, Calendar, BarChart3, Users, Clock, CheckCircle } from 'lucide-react';
+import { motion, useReducedMotion } from 'motion/react';
+import WhatsAppMock from '../components/WhatsAppMock';
+
+const MARQUEE_ITEMS = [
+  'Captacao de leads',
+  'Marcacoes automaticas',
+  'Respostas 24/7',
+  'Dashboard em tempo real',
+  'Zero recrutamentos',
+  'Qualificacao de clientes',
+  'Configuracao em 48h',
+  'Multi-servico',
+  'Historial de conversas',
+  'Notificacoes ao dono',
+];
+
+const BENTO = [
+  {
+    id: 'sempre',
+    col: 'md:col-span-2',
+    style: { background: 'linear-gradient(135deg, #1e3a8a 0%, #312e81 60%, #1e1b4b 100%)' },
+    icon: Clock,
+    label: 'Sempre disponivel',
+    desc: 'O bot responde a qualquer hora, incluindo fins de semana e feriados. Sem pausas.',
+    big: '24/7',
+  },
+  {
+    id: 'leads',
+    col: 'md:col-span-1',
+    bg: 'bg-slate-800',
+    imageSeed: 'beauty-salon-clients',
+    icon: Users,
+    label: 'Captacao de leads',
+    desc: 'Cada conversa gera um lead qualificado na sua dashboard.',
+    big: null,
+  },
+  {
+    id: 'marcacoes',
+    col: 'md:col-span-1',
+    bg: 'bg-slate-900',
+    icon: Calendar,
+    label: 'Marcacoes sem esforco',
+    desc: 'Confirma, reagenda e cancela marcacoes diretamente no WhatsApp.',
+    big: null,
+  },
+  {
+    id: 'dashboard',
+    col: 'md:col-span-1',
+    bg: 'bg-slate-800',
+    icon: BarChart3,
+    label: 'Dashboard completa',
+    desc: 'Metricas, pipeline de clientes e conversas num so ecrã.',
+    big: null,
+  },
+  {
+    id: 'staff',
+    col: 'md:col-span-1',
+    style: { background: 'linear-gradient(135deg, #0c4a6e 0%, #164e63 100%)' },
+    icon: Zap,
+    label: 'Zero funcionarios extra',
+    desc: 'O bot substitui um atendente a tempo inteiro.',
+    big: '€0',
+  },
+];
+
+const STEPS = [
+  {
+    n: '01',
+    title: 'Configuramos o bot',
+    desc: 'Em 48 horas configuramos o bot com a informacao do seu negocio: servicos, horarios e estilo de resposta.',
+    icon: MessageSquare,
+  },
+  {
+    n: '02',
+    title: 'Liga ao WhatsApp',
+    desc: 'Conectamos ao seu numero de WhatsApp Business existente, sem mudar o numero nem perder contactos.',
+    icon: Zap,
+  },
+  {
+    n: '03',
+    title: 'O bot faz o resto',
+    desc: 'A partir dai o bot atende, qualifica e agenda por si. Acompanhe tudo na dashboard em tempo real.',
+    icon: BarChart3,
+  },
+];
+
+const PLANS = [
+  {
+    name: 'Starter',
+    price: '175',
+    desc: 'Para negocios a comecar com automacao.',
+    features: ['1 numero WhatsApp', 'Ate 500 conversas/mes', 'Captacao de leads', 'Dashboard basica', 'Suporte por email'],
+    cta: 'Comecar',
+    highlight: false,
+    border: false,
+  },
+  {
+    name: 'Growth',
+    price: '350',
+    desc: 'O plano mais escolhido por clinicas e saloes.',
+    features: ['1 numero WhatsApp', 'Conversas ilimitadas', 'Marcacoes automaticas', 'Dashboard completa', 'Relatorios mensais', 'Suporte prioritario'],
+    cta: 'Comecar',
+    highlight: true,
+    border: false,
+  },
+  {
+    name: 'Premium',
+    price: '525',
+    desc: 'Para negocios com volume alto e multiplos espacos.',
+    features: ['2 numeros WhatsApp', 'Tudo do Growth', 'Integracao CRM', 'Setup personalizado', 'Gestor de conta dedicado', 'SLA garantido'],
+    cta: 'Falar com equipa',
+    highlight: false,
+    border: true,
+  },
+];
 
 export default function Home() {
+  const reduce = useReducedMotion();
+
+  const fadeUp = (delay = 0) => ({
+    initial: reduce ? false : { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] as const },
+  });
+
+  const inView = (delay = 0) => ({
+    initial: reduce ? false : { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.25 },
+    transition: { duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] as const },
+  });
+
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-slate-50 pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-grid-slate-100/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-900/[0.04] dark:bg-bottom dark:border-b dark:border-slate-100/5"></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-900 tracking-tight mb-8 leading-tight">
-              Transformamos o seu negócio local numa <span className="text-blue-600">máquina de clientes</span>
-            </h1>
-            <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Ajudamos empresas a crescer de forma previsível através de publicidade paga e estratégias de marketing digital comprovadas. Construímos um fluxo constante de clientes qualificados para que se possa focar no que realmente importa: gerir e expandir o seu negócio.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-              <a
-                href="https://calendly.com/primescale-info/30min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-blue-600 rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+    <div className="flex flex-col bg-slate-950 text-white">
+
+      {/* ── HERO ────────────────────────────────────────── */}
+      <section className="relative min-h-[100dvh] flex items-center overflow-hidden pt-[72px]">
+        {/* Background glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full bg-blue-600/8 blur-[120px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-violet-600/6 blur-[100px]" />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+            {/* Left: copy */}
+            <div className="order-1 lg:order-1">
+              <motion.div {...fadeUp(0)} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-600/15 border border-blue-500/25 text-blue-400 text-sm font-medium mb-6">
+                <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
+                Bot IA para WhatsApp
+              </motion.div>
+
+              <motion.h1
+                {...fadeUp(0.08)}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-[64px] font-extrabold leading-[1.06] tracking-tight mb-6"
               >
-                Marcar Chamada Gratuita
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </a>
-              <Link
-                to="/servicos"
-                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-slate-700 bg-white border border-slate-200 rounded-full hover:bg-slate-50 hover:border-slate-300 transition-all"
-              >
-                Ver Serviços
-              </Link>
-            </div>
-            <div className="mt-10 flex items-center justify-center gap-2 text-sm text-slate-500 font-medium">
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
-              <span>Sem compromisso</span>
-              <span className="mx-2">•</span>
-              <CheckCircle2 className="h-5 w-5 text-green-500" />
-              <span>Estratégia personalizada</span>
-            </div>
-          </div>
-        </div>
-      </section>
+                Ganhe clientes
+                <br />
+                <span className="text-blue-500">enquanto dorme.</span>
+              </motion.h1>
 
-      {/* Problem Section */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              O seu negócio está estagnado?
-            </h2>
-            <p className="text-lg text-slate-600">
-              Muitos negócios locais lutam diariamente com os mesmos problemas. Reconhece algum destes cenários?
-            </p>
-          </div>
+              <motion.p {...fadeUp(0.16)} className="text-lg text-slate-400 leading-relaxed mb-8 max-w-[480px]">
+                Bot de IA no WhatsApp que capta leads, responde e confirma marcacoes automaticamente.
+              </motion.p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Falta de clientes consistentes',
-                description: 'Tem meses excelentes e meses terríveis. Não consegue prever a faturação do próximo mês com segurança.',
-                icon: Users,
-              },
-              {
-                title: 'Dependência de recomendações',
-                description: 'O passa-a-palavra é ótimo, mas não é escalável. Não tem controlo sobre quando o próximo cliente vai aparecer.',
-                icon: MessageSquare,
-              },
-              {
-                title: 'Anúncios sem retorno',
-                description: 'Já tentou "impulsionar publicações" ou fazer anúncios, mas sentiu que estava apenas a queimar dinheiro.',
-                icon: TrendingUp,
-              },
-            ].map((problem, index) => (
-              <div key={index} className="bg-slate-50 rounded-2xl p-8 border border-slate-100 hover:border-blue-100 hover:shadow-md transition-all">
-                <div className="w-12 h-12 bg-red-100 text-red-600 rounded-xl flex items-center justify-center mb-6">
-                  <problem.icon className="h-6 w-6" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{problem.title}</h3>
-                <p className="text-slate-600 leading-relaxed">{problem.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Solution Section (Growth System) */}
-      <section className="py-24 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              O Sistema de Crescimento PrimeScale
-            </h2>
-            <p className="text-lg text-slate-400">
-              Uma metodologia testada e comprovada para transformar desconhecidos em clientes fiéis.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
-            {/* Connecting line for desktop */}
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-slate-800 -translate-y-1/2 z-0"></div>
-
-            {[
-              {
-                step: '01',
-                title: 'Atração',
-                description: 'Criamos anúncios altamente segmentados no Meta e Google para atrair o seu cliente ideal.',
-              },
-              {
-                step: '02',
-                title: 'Captura',
-                description: 'Direcionamos o tráfego para páginas otimizadas para converter visitantes em leads.',
-              },
-              {
-                step: '03',
-                title: 'Nutrição',
-                description: 'Implementamos sistemas de acompanhamento para aquecer os contactos até estarem prontos a comprar.',
-              },
-              {
-                step: '04',
-                title: 'Conversão',
-                description: 'Entregamos-lhe clientes qualificados, prontos para fechar negócio consigo.',
-              },
-            ].map((step, index) => (
-              <div key={index} className="relative z-10 flex flex-col items-center text-center">
-                <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mb-6 shadow-lg shadow-blue-900/50 border-4 border-slate-900">
-                  {step.step}
-                </div>
-                <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed">{step.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div className="max-w-2xl">
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-                Como podemos ajudar o seu negócio
-              </h2>
-              <p className="text-lg text-slate-600">
-                Soluções completas de marketing digital focadas exclusivamente em gerar resultados reais e mensuráveis.
-              </p>
-            </div>
-            <Link
-              to="/servicos"
-              className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors"
-            >
-              Ver todos os serviços
-              <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Gestão de Anúncios Pagos',
-                description: 'Campanhas de alta performance no Facebook, Instagram e Google Ads para gerar leads qualificadas.',
-                icon: Target,
-              },
-              {
-                title: 'Gestão de Redes Sociais',
-                description: 'Criação de conteúdo estratégico e gestão da sua presença online para construir autoridade e confiança.',
-                icon: Users,
-              },
-              {
-                title: 'Websites de Conversão',
-                description: 'Desenvolvimento de landing pages e websites rápidos, modernos e otimizados para converter visitantes em clientes.',
-                icon: BarChart3,
-              },
-            ].map((service, index) => (
-              <div key={index} className="bg-white p-8 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group">
-                <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                  <service.icon className="h-7 w-7" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
-                <p className="text-slate-600 leading-relaxed mb-6">{service.description}</p>
-                <Link to="/servicos" className="text-sm font-semibold text-slate-900 group-hover:text-blue-600 transition-colors inline-flex items-center">
-                  Saber mais <ArrowRight className="ml-1 h-4 w-4" />
+              <motion.div {...fadeUp(0.22)} className="flex flex-col sm:flex-row gap-3">
+                <Link
+                  to="/bot"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-full transition-all active:scale-[0.98]"
+                >
+                  Ver o Bot em Acao
+                  <ArrowRight className="w-4 h-4" />
                 </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                <a
+                  href="https://calendly.com/primescale-info/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-full transition-all active:scale-[0.98] border border-slate-700/60"
+                >
+                  Marcar Chamada
+                </a>
+              </motion.div>
 
-      {/* Why Choose Us */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
-                Porquê escolher a PrimeScale?
-              </h2>
-              <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-                Não somos apenas mais uma agência que promete "likes" e "alcance". Somos o seu parceiro de crescimento focado no que realmente importa: o aumento da sua faturação.
-              </p>
-              
-              <div className="space-y-6">
+              <motion.div {...fadeUp(0.28)} className="flex items-center gap-6 mt-8 pt-8 border-t border-slate-800/60">
                 {[
-                  {
-                    title: 'Estratégias orientadas a resultados',
-                    description: 'O nosso sucesso é medido pelo seu sucesso. Focamo-nos em métricas de negócio reais (leads, vendas, ROI) e não em métricas de vaidade.',
-                  },
-                  {
-                    title: 'Acompanhamento contínuo',
-                    description: 'Não lançamos campanhas e desaparecemos. Otimizamos diariamente e enviamos relatórios claros sobre o desempenho do seu investimento.',
-                  },
-                  {
-                    title: 'Foco em crescimento real',
-                    description: 'Trabalhamos como uma extensão da sua equipa, compreendendo o seu negócio a fundo para criar estratégias que geram crescimento sustentável.',
-                  },
-                ].map((item, index) => (
-                  <div key={index} className="flex gap-4">
-                    <div className="flex-shrink-0 mt-1">
-                      <CheckCircle2 className="h-6 w-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-slate-900 mb-1">{item.title}</h3>
-                      <p className="text-slate-600">{item.description}</p>
-                    </div>
+                  { val: '24/7', label: 'Disponivel' },
+                  { val: '48h', label: 'Para comecar' },
+                  { val: '100%', label: 'Automatico' },
+                ].map((s) => (
+                  <div key={s.val}>
+                    <p className="text-xl font-bold text-white">{s.val}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">{s.label}</p>
                   </div>
                 ))}
-              </div>
+              </motion.div>
             </div>
-            <div className="relative">
-              <div className="aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-slate-100 relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" 
-                  alt="Equipa a trabalhar em estratégia" 
-                  className="w-full h-full object-cover"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-slate-900/40 to-transparent"></div>
+
+            {/* Right: WhatsApp mock */}
+            <motion.div
+              {...fadeUp(0.12)}
+              className="order-2 lg:order-2 flex justify-center lg:justify-end relative"
+            >
+              <div className="relative">
+                <WhatsAppMock />
+                {/* Floating stat card top-left */}
+                <motion.div
+                  initial={reduce ? false : { opacity: 0, x: -16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.2, duration: 0.5 }}
+                  className="absolute -left-6 top-16 hidden lg:block bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-xl px-3.5 py-2.5 shadow-xl"
+                >
+                  <p className="text-[11px] text-slate-400">Satisfacao media</p>
+                  <p className="text-lg font-bold text-white">4.9 / 5.0</p>
+                </motion.div>
+                {/* Floating stat card bottom-right */}
+                <motion.div
+                  initial={reduce ? false : { opacity: 0, x: 16 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.5, duration: 0.5 }}
+                  className="absolute -right-6 bottom-20 hidden lg:block bg-slate-800/90 backdrop-blur-sm border border-slate-700/50 rounded-xl px-3.5 py-2.5 shadow-xl"
+                >
+                  <p className="text-[11px] text-slate-400">Leads este mes</p>
+                  <p className="text-lg font-bold text-green-400">+127</p>
+                </motion.div>
               </div>
-              
-              {/* Floating stat card */}
-              <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-xl border border-slate-100 max-w-xs hidden md:block">
-                <div className="flex items-center gap-4 mb-2">
-                  <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center">
-                    <TrendingUp className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-slate-500 font-medium">Aumento médio</p>
-                    <p className="text-2xl font-bold text-slate-900">+145%</p>
-                  </div>
-                </div>
-                <p className="text-sm text-slate-600">Em leads qualificadas nos primeiros 90 dias.</p>
-              </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-blue-600 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2029&auto=format&fit=crop')] opacity-10 bg-cover bg-center mix-blend-overlay"></div>
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Pronto para escalar o seu negócio?
-          </h2>
-          <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-            Marque uma chamada estratégica gratuita de 30 minutos. Vamos analisar o seu negócio e mostrar-lhe exatamente como podemos ajudar a gerar mais clientes.
-          </p>
-          <a
-            href="https://calendly.com/primescale-info/30min"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-blue-600 bg-white rounded-full hover:bg-slate-50 transition-all shadow-xl hover:shadow-2xl hover:-translate-y-1"
-          >
-            Marcar Chamada Estratégica
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </a>
-          <p className="mt-6 text-sm text-blue-200">
-            Sem compromisso. Apenas valor e estratégia para o seu negócio.
-          </p>
+      {/* ── MARQUEE ─────────────────────────────────────── */}
+      <div className="border-y border-slate-800/60 py-4 overflow-hidden bg-slate-900/40">
+        <motion.div
+          animate={{ x: ['0%', '-50%'] }}
+          transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+          className="flex gap-0 whitespace-nowrap"
+        >
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span key={i} className="inline-flex items-center gap-3 px-6 text-sm text-slate-400 font-medium">
+              <span className="w-1 h-1 rounded-full bg-blue-500 shrink-0" />
+              {item}
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* ── BENTO FEATURES ──────────────────────────────── */}
+      <section id="funcionalidades" className="py-24 lg:py-32 bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div {...inView()} className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              Tudo o que o seu negocio precisa.
+            </h2>
+            <p className="text-slate-400 text-lg max-w-xl">
+              Uma plataforma completa de atendimento, captacao e gestao de clientes via WhatsApp.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {BENTO.map((cell, i) => (
+              <motion.div
+                key={cell.id}
+                {...inView(i * 0.07)}
+                className={`${cell.col ?? ''} rounded-2xl p-6 relative overflow-hidden border border-slate-700/30 ${cell.bg ?? ''}`}
+                style={cell.style}
+                whileHover={reduce ? {} : { scale: 1.01 }}
+                transition={{ duration: 0.2 }}
+              >
+                {cell.imageSeed && (
+                  <div className="absolute inset-0">
+                    <img
+                      src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&h=400&fit=crop&q=80"
+                      alt=""
+                      className="w-full h-full object-cover opacity-20"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-800 via-slate-800/80 to-transparent" />
+                  </div>
+                )}
+                <div className="relative z-10 flex flex-col h-full min-h-[160px]">
+                  <div className="flex items-start justify-between mb-auto">
+                    <div className="w-9 h-9 rounded-lg bg-blue-600/20 border border-blue-500/20 flex items-center justify-center">
+                      <cell.icon className="w-4 h-4 text-blue-400" />
+                    </div>
+                    {cell.big && (
+                      <span className="text-4xl md:text-5xl font-black text-white/90 leading-none">{cell.big}</span>
+                    )}
+                  </div>
+                  <div className="mt-6">
+                    <h3 className="text-base font-semibold text-white mb-1.5">{cell.label}</h3>
+                    <p className="text-sm text-slate-400 leading-relaxed">{cell.desc}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── HOW IT WORKS ────────────────────────────────── */}
+      <section className="py-24 lg:py-32 bg-slate-900/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div {...inView()} className="mb-16 max-w-xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              Pronto em 48 horas.
+            </h2>
+            <p className="text-slate-400 text-lg">
+              Sem codigo, sem integrações complexas. Nos tratamos de tudo.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* Connecting line desktop */}
+            <div className="hidden md:block absolute top-8 left-[20%] right-[20%] h-px bg-gradient-to-r from-transparent via-blue-600/40 to-transparent" />
+
+            {STEPS.map((step, i) => (
+              <motion.div key={step.n} {...inView(i * 0.1)} className="relative">
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="w-14 h-14 rounded-xl bg-blue-600/15 border border-blue-500/25 flex items-center justify-center relative z-10">
+                    <step.icon className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <span className="text-2xl font-black text-slate-700">{step.n}</span>
+                </div>
+                <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
+                <p className="text-sm text-slate-400 leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── PRICING ─────────────────────────────────────── */}
+      <section id="precos" className="py-24 lg:py-32 bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div {...inView()} className="mb-14 max-w-xl">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              Precos simples e previsíveis.
+            </h2>
+            <p className="text-slate-400 text-lg">
+              Sem contratos anuais. Cancela a qualquer momento.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-start">
+            {PLANS.map((plan, i) => (
+              <motion.div
+                key={plan.name}
+                {...inView(i * 0.08)}
+                className={`rounded-2xl p-7 relative ${
+                  plan.highlight
+                    ? 'bg-blue-600'
+                    : plan.border
+                    ? 'bg-slate-900 border-2 border-blue-500/50'
+                    : 'bg-slate-900 border border-slate-800'
+                }`}
+              >
+                {plan.highlight && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-white text-blue-600 text-xs font-bold rounded-full">
+                    Mais popular
+                  </span>
+                )}
+                <div className="mb-6">
+                  <p className={`text-sm font-semibold mb-1 ${plan.highlight ? 'text-blue-200' : 'text-slate-400'}`}>
+                    {plan.name}
+                  </p>
+                  <div className="flex items-baseline gap-1 mb-2">
+                    <span className="text-4xl font-black text-white">€{plan.price}</span>
+                    <span className={`text-sm ${plan.highlight ? 'text-blue-200' : 'text-slate-500'}`}>/mes</span>
+                  </div>
+                  <p className={`text-sm ${plan.highlight ? 'text-blue-100' : 'text-slate-400'}`}>{plan.desc}</p>
+                </div>
+
+                <ul className="space-y-3 mb-8">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-sm">
+                      <CheckCircle className={`w-4 h-4 shrink-0 mt-0.5 ${plan.highlight ? 'text-white/80' : 'text-blue-500'}`} />
+                      <span className={plan.highlight ? 'text-blue-50' : 'text-slate-300'}>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <a
+                  href="https://calendly.com/primescale-info/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`block w-full text-center py-3 rounded-full font-semibold text-sm transition-all active:scale-[0.98] ${
+                    plan.highlight
+                      ? 'bg-white text-blue-600 hover:bg-blue-50'
+                      : 'bg-slate-800 hover:bg-slate-700 text-white border border-slate-700/60'
+                  }`}
+                >
+                  {plan.cta}
+                </a>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.p {...inView(0.25)} className="text-center text-sm text-slate-500 mt-8">
+            Todos os planos incluem periodo de teste de 14 dias. Configuracao e onboarding incluidos.
+          </motion.p>
+        </div>
+      </section>
+
+      {/* ── FINAL CTA ───────────────────────────────────── */}
+      <section className="py-24 lg:py-32 relative overflow-hidden bg-slate-900">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-blue-600/10 blur-[80px]" />
+        </div>
+        <div className="relative max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.h2 {...inView()} className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+            Pronto para automatizar o seu atendimento?
+          </motion.h2>
+          <motion.p {...inView(0.08)} className="text-lg text-slate-400 mb-10">
+            Fale com a nossa equipa e veja o bot a trabalhar com os dados do seu negocio.
+          </motion.p>
+          <motion.div {...inView(0.14)} className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
+              href="https://calendly.com/primescale-info/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-full transition-all active:scale-[0.98]"
+            >
+              Marcar Chamada Gratuita
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <Link
+              to="/bot"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-full transition-all active:scale-[0.98] border border-slate-700/60"
+            >
+              Explorar o Bot
+            </Link>
+          </motion.div>
         </div>
       </section>
     </div>
